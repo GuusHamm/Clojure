@@ -1,14 +1,1 @@
-# clojure_for_the_brave_and_true
-
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2015 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Contains a bunch of code in which i'm just toying around with clojure and following the book Clojure for the Brave and True as well as some other stuff
