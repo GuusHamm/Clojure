@@ -35,4 +35,16 @@
   [minimum-glitter records]
   (filter #(>= (:glitter-index %) minimum-glitter) records))
 
-(parse (slurp filename))
+;Exercise 1
+(defn glitter-list
+  [minimum-glitter records]
+  into '() glitter-filter minimum-glitter records)
+
+(glitter-list 3 (mapify (parse (slurp filename))))
+
+;Exercise 2
+(defn append
+  [new-record records]
+  (into records new-record))
+
+
