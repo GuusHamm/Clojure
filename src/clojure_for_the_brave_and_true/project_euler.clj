@@ -23,8 +23,8 @@
    (if (> number (dec max))
      (do (println sum))
      (do (if (or (= (mod number multiples_of_x) 0) (= (mod number multiples_of_y) 0))
-           (do (get_multiples_of_x_y (inc number) max (+ sum number) multiples_of_x multiples_of_y))
-           (do (get_multiples_of_x_y (inc number) max sum multiples_of_x multiples_of_y)))))))
+           (do (recur (inc number) max (+ sum number) multiples_of_x multiples_of_y))
+           (do (recur (inc number) max sum multiples_of_x multiples_of_y)))))))
 
 (defn get_multiples_of_3_5
   [max]
@@ -42,8 +42,8 @@
    (if (> b max)
      (do (println (str (+ total a b))))
      (do (if (= (mod (+ a b) 2) 0)
-           (do (get_fibonacci_number b (+ a b) (+ total (+ a b)) max))
-           (do (get_fibonacci_number b (+ a b) total max)))))))
+           (do (recur b (+ a b) (+ total (+ a b)) max))
+           (do (recur b (+ a b) total max)))))))
 
 (get_fibonacci_number)
 
