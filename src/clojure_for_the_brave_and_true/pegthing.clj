@@ -74,7 +74,7 @@
   "Creates a new board with the given number of rows"
   [rows]
   (let [initial-board {:rows rows}
-        max-pos (row-tri row)]
+        max-pos (row-tri rows)]
     (reduce (fn [board pos] (add-pos board max-pos pos))
             initial-board
             (range 1 (inc max-pos)))))
@@ -123,7 +123,7 @@
 (defn can-move?
   "Do any of the pegged positions have valid moves?"
   [board]
-  (some (comp not-empty (oartial valid-moves board))
+  (some (comp not-empty (partial valid-moves board))
         (map first (filter #(get (second %) :pegged) board))))
 
 (def alpha-start 97)
@@ -131,12 +131,30 @@
 (def letters (map (comp str char)(range alpha-start alpha-end)))
 (def pos-chars 3)
 
+
+(def ansi-styles
+  {:red   "[31m"
+   :green "[32m"
+   :blue  "[34m"
+   :reset "[0m"})
+
+(defn ansi
+  "Produce a string which will apply an ansi style"
+  [style]
+  (str \u001b (style ansi-styles)))
+
+(defn colorize
+  "Apply ansi color to text"
+  [text color]
+  (str (ansi color) text (ansi :reset)))
+
 (defn render-pos
   [board pos]
   (str (nth letters (dec pos))
        (if (get-in board [pos :pegged])
          (colorize "0" :blue)
          (colorize "-" :red))))
+
 
 (defn row-positions
   "Return all positions in the given row"
@@ -169,16 +187,68 @@
 (defn get-input
   "Waits for the user to enter text and hit enter, then cleans the input"
   ([] (get-input nil))
-  [default]
-  (let [input (clojure.string/trim (read-line))]
-    (if (empty? input)
-      default
-      (clojure.string/lower-case input))))
+  ([default]
+   (let [input (clojure.string/trim (read-line))]
+     (if (empty? input)
+       default
+       (clojure.string/lower-case input)))))
 
-(println  (take 5 tri))
-(println  (triangular? 5))
-(println  (triangular? 6))
-(println  (row-tri 3))
-(println  (row-num 12))
-(println  (connect {} 15 1 2 4))
-(println  (add-pos {} 15 1))
+(defn characters-as-strings
+  "Given a string, return a collection consisting of each individual
+  character"
+  [string]
+  (re-seq #"[a-zA-Z]" string))
+
+
+(defn user-entered-invalid-move
+  "Handles the next step after a user has entered an invalid move"
+  [board]
+  (println "\n!!! That was an invalid move :(\n")
+  (prompt-move board)
+  )
+
+
+(defn user-entered-valid-move
+  "Handles the next after a user entered an valid move"
+  [board]
+  (if (can-move? board)
+    (prompt-move board)
+    (game-over board)))
+
+(defn prompt-move
+  [board]
+  (println "\nHere's your board:")
+  (print-board board)
+  (println "Move from where to where? Enter two letters:")
+  (let [input (map letter->pos (characters-as-strings (get-input)))]
+    (if-let [new-board (make-move board (first input) (second input))]
+      (user-entered-valid-move new-board)
+      (user-entered-invalid-move board))))
+
+(defn prompt-empty-peg
+  [board]
+  (println "Here's your board:")
+  (print-board board)
+  (println "Remove which peg? [e]")
+  (prompt-move (remove-peg board (letter->pos (get-input "e")))))
+
+(defn prompt-rows
+  []
+  (println "How many rows? [5]")
+  (let [rows (Integer. (get-input 5))
+        board (new-board rows)]
+    (prompt-empty-peg board)))
+
+(defn game-over
+  "Announce the game is over and prompt to play again"
+  [board]
+  (let [remaining-pegs (count (filter :pegged (vals board)))]
+    (println "Game over ! You had " remaining-pegs "[egs left:")
+    (print-board board)
+    (println "Play again? y/n [y]")
+    (let [input (get-input "y")]
+      (if (= "y" input)
+        (prompt-rows)
+        (do
+          (println "Bye!")
+          (System/exit 0))))))
