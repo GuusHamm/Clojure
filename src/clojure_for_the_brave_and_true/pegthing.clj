@@ -252,3 +252,9 @@
         (do
           (println "Bye!")
           (System/exit 0))))))
+
+
+(defn -main
+  [& args]
+  (println "Get ready to play peg thing!")
+  (prompt-rows))
