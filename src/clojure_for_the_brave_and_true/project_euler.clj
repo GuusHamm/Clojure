@@ -49,6 +49,7 @@
 
 ; Project Euler 4
 (println "Project Euler 4")
+
 (defn is_palindrone?
   [number]
   ; This next bit of cide might seem a bit odd, the reason for this is that reverse
@@ -77,26 +78,29 @@
 
 (println (palindrone_product 3))
 
-; Project Euler 5
-;
-;(defn calculate-xst-prime-number
-;  [x num primenumbers]
-;  (let [sqrtnum (java.lang.Math/sqrt num)]
-;    (for [i primenumbers]
-;      (if (< number sqrtnum)
-;        (if (= (/ num i) 0)
-;          (do
-;            (conj primenumbers num)
-;            (if (= (count primenumbers) x)
-;              (last primenumbers))))
-;        (calculate-xst-prime-number x (+ num 2) primenumbers)))))
-;
-;(println (conj [2] 5))
-;
-;(for [x [0 1 2 3 4 5]
-;      :let [y (* x 3)]
-;      :when (even? y)]
-;  y)
-;
-;(println (calculate-xst-prime-number 2 3 [2]))
+; Project Euler 6
+(println "Project Euler 6")
+
+(defn sum_of_square
+  ([max] (sum_of_square 1 0 max))
+  ([number sum max]
+   (let [squared (java.lang.Math/pow number 2)]
+     (if (<= max number )
+       (int (+ sum squared))
+       (recur (inc number) (+ sum squared) max )))))
+
+(defn square_of_sum
+  ([max] (square_of_sum 1 0 max))
+  ([number sum max]
+   (if (<= max number)
+     (int (java.lang.Math/pow (+ sum number) 2))
+     (recur (inc number) (+ sum number) max))))
+
+(defn difference
+  [number_1 number_2]
+  (- number_1 number_2))
+
+(println (difference (square_of_sum 100) (sum_of_square 100)))
+
+
 
