@@ -48,6 +48,7 @@
 (get_fibonacci_number)
 
 ; Project Euler 4
+(println "Project Euler 4")
 (defn is_palindrone?
   [number]
   ; This next bit of cide might seem a bit odd, the reason for this is that reverse
@@ -66,7 +67,9 @@
      (str largest)
      (if (is_palindrone? (* a b))
        (if (< (int largest) (* a b))
-         (recur a (dec b) (* a b) length)
+         (if (<= a 98)
+           (str largest)
+           (recur a (dec b) (* a b) length))
          (recur a (dec b) largest length))
        (if (<= b 0)
          (recur (dec a) (number_of_length length) largest length)
@@ -74,4 +77,26 @@
 
 (println (palindrone_product 3))
 
+; Project Euler 5
+;
+;(defn calculate-xst-prime-number
+;  [x num primenumbers]
+;  (let [sqrtnum (java.lang.Math/sqrt num)]
+;    (for [i primenumbers]
+;      (if (< number sqrtnum)
+;        (if (= (/ num i) 0)
+;          (do
+;            (conj primenumbers num)
+;            (if (= (count primenumbers) x)
+;              (last primenumbers))))
+;        (calculate-xst-prime-number x (+ num 2) primenumbers)))))
+;
+;(println (conj [2] 5))
+;
+;(for [x [0 1 2 3 4 5]
+;      :let [y (* x 3)]
+;      :when (even? y)]
+;  y)
+;
+;(println (calculate-xst-prime-number 2 3 [2]))
 
