@@ -13,8 +13,8 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Leiningen: clojure-complete:0.2.3" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.7.0" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/tools.nrepl:0.2.10" level="project" />
+    <orderEntry type="library" exported="" name="Leiningen: clojure-complete:0.2.3" level="project" />
+    <orderEntry type="library" exported="" name="Leiningen: org.clojure/clojure:1.7.0" level="project" />
+    <orderEntry type="library" exported="" name="Leiningen: org.clojure/tools.nrepl:0.2.10" level="project" />
   </component>
 </module>

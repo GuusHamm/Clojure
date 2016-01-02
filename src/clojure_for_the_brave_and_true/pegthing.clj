@@ -258,3 +258,5 @@
   [& args]
   (println "Get ready to play peg thing!")
   (prompt-rows))
+
+(println (str (new-board 5)))

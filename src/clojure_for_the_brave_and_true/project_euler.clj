@@ -102,5 +102,30 @@
 
 (println (difference (square_of_sum 100) (sum_of_square 100)))
 
+; Project Euler 14
+(println "Project Euler 14")
 
+(defn collatz_sequence
+  "Calculates the number of steps it takes for x number too become 1 according to the collatz-sequence "
+  ([x] (collatz_sequence x 0))
+  ([x steps]
+   (if (= 1 x)
+     (int (inc steps))
+     (if (even? x)
+       (recur (/ x 2) (inc steps))
+       (recur (+ (* 3 x) 1) (inc steps))))))
+
+; So this solution technically works, but because clojure uses immutatable data this solution takes very long and really isn't effective for a sequence longer then 50.
+(defn longest_chain
+  ([max] (longest_chain max 1 1))
+  ([max length_of_longest_chain number_of_longest_chain]
+   (loop [i max]
+     (if (<= i 1)
+       (int number_of_longest_chain)
+       (let [current_chain (collatz_sequence i)]
+         (if (> current_chain length_of_longest_chain)
+           (longest_chain (dec i) current_chain i))
+         (recur (dec i)))))))
+
+(println (time (longest_chain 20)))
 
