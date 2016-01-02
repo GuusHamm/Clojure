@@ -129,3 +129,24 @@
 
 (println (time (longest_chain 20)))
 
+; Project Euler 20
+(println "Project Euler 20")
+(defn n!
+  ([n] (n! n 1))
+  ([n product]
+   (if (<= n 1)
+      (str product)
+      (recur (dec n) (*' product n)))))
+
+(defn sum_of_digits
+  ([digits] (sum_of_digits digits 0))
+  ([digits sum]
+   (println digits sum)
+   (if (= 1 (count (str digits)))
+     (str (+ sum (- (int (first digits)) 48)))
+     (recur (subs digits 1) (+ sum (- (int (first digits)) 48))))))
+
+(println (sum_of_digits (str (n! 100))))
+
+
+
